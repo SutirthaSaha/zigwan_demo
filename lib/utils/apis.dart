@@ -1,0 +1,1 @@
+final photo_url="https://jsonplaceholder.typicode.com/photos";
