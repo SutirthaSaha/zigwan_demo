@@ -76,6 +76,7 @@ flutter:
     - images/workshop.png
     - images/events_icon.png
     - images/competition.png
+    - images/app_logo.png
     - images/signup.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see

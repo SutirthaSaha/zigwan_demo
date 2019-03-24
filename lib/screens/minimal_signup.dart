@@ -26,11 +26,8 @@ class _MinimalSignUpPageState extends State<MinimalSignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(top:30),
-            color: Colors.black,
             height: 200.0,
             child: Image.asset('images/signup.jpg',fit: BoxFit.cover,),
           ),
@@ -141,9 +138,10 @@ class _MinimalSignUpPageState extends State<MinimalSignUpPage> {
                 child: Text('Log In',
                   style: TextStyle(
                       //decoration: TextDecoration.underline,
-                      color:Colors.indigo[900],
+                      color:Colors.blue,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Montserrat'
+                      fontFamily: 'Montserrat',
+                    decoration: TextDecoration.underline
                   ),),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => MinimalLoginPage()),);

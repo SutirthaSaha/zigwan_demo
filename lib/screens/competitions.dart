@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:zigwan_demo/screens/add_competition_form.dart';
+import 'package:zigwan_demo/screens/add_event_form.dart';
 import 'package:zigwan_demo/screens/add_workshop_form.dart';
-import 'package:zigwan_demo/ui/competitionCard.dart';
-import 'package:zigwan_demo/ui/drawer.dart';
-import 'package:zigwan_demo/ui/notififcations.dart';
-import 'package:zigwan_demo/ui/trendingCompetitions.dart';
+import 'package:zigwan_demo/utils/apis.dart';
+import 'package:http/http.dart' as http;
 
 class Competitions extends StatefulWidget {
   @override
@@ -12,37 +13,71 @@ class Competitions extends StatefulWidget {
 }
 
 class _CompetitionsState extends State<Competitions> {
-  String message = "";
-  List<Widget> items = new List();
+  List data;
+  suggestionCard(){
+    return Container(
+      color: Colors.white,
+      height: MediaQuery.of(context).size.height*0.3,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: data.length,
+        itemBuilder: (context,index){
+          return Card(
+              color: Colors.black87,
+              child: Container(
+                width: MediaQuery.of(context).size.width*0.65,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(data[index]['thumbnailUrl']),
+                        fit: BoxFit.cover
+                    )
+                ),
+              ));
+        },
+      ),
+    );
+  }
 
-  ScrollController _controller;
-  _scrollListener(){
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        message = "reach the bottom";
-      });
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        message = "reach the top";
-      });
-    }
+  eventCard(int i){
+    return Card(
+      margin: EdgeInsets.all(5.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize:MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height*0.3,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(data[i]['thumbnailUrl']),
+                      fit: BoxFit.cover
+                  )
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.all(5),
+                padding: EdgeInsets.only(left:5.0,right: 5.0),
+                child:Row(
+                  children: <Widget>[
+                    Expanded(child:Text(data[i]['title'])),
+                    Icon(Icons.location_on),
+                    Text("Location")
+                  ],
+                )
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   void initState() {
-    fetchFive();
-    _controller=ScrollController();
-    _controller.addListener(_scrollListener);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    this.getJsonData();
   }
 
   @override
@@ -64,7 +99,7 @@ class _CompetitionsState extends State<Competitions> {
             icon: Icon(Icons.add_circle),
             onPressed: () {
               debugPrint('Post');
-              showCustomDialog(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddEventForm()));
             },
           ),
           IconButton(
@@ -75,37 +110,27 @@ class _CompetitionsState extends State<Competitions> {
           ),
         ],
       ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification){
-          fetchFive();
-        },
-        child: ListView.builder(
-          shrinkWrap: true,
-          controller: _controller,
-          itemCount: items.length,
-          addRepaintBoundaries: false,
-          itemBuilder: (context, index) {
-            if(index==0)
-              return Column(children: <Widget>[
-                TrendingCompetitions(),
-                Container(
-                  padding: EdgeInsets.only(left: 5,right: 5,bottom: 5),
-                  child: Image.network(
-                    'https://github.com/flutter/website/blob/master/src/_includes/code/layout/lakes/images/lake.jpg?raw=true',
-                  ),
-                ),
-              ],);
-
-            return items[index];
-          },
-        ),
-      ),
+      body: data==null?Container():
+          ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context,index){
+                if(index==0){
+                  return Container(
+                    margin: EdgeInsets.only(top:10.0),
+                    color: Colors.white,
+                    padding:EdgeInsets.all(5),
+                    child: Text("Suggestions",style:TextStyle(fontWeight: FontWeight.bold)),
+                  );
+                }
+                else if(index==1){
+                  return suggestionCard();
+                }
+                else {
+                  return eventCard(index - 2);
+                }
+              }
+          )
     );
-  }
-
-  fetchFive(){
-    for(int i=0;i<3;i++)
-      items.add(CompetitionCard());
   }
 
   Future<bool> showCustomDialog(context){
@@ -156,5 +181,20 @@ class _CompetitionsState extends State<Competitions> {
           );
         }
     );
+  }
+  Future<String> getJsonData() async{
+    var response=await http.get(
+        Uri.encodeFull(photo_url),
+        headers: {
+          "Accept":"application/json"
+        }
+    );
+    //    print(response.body);
+    setState(() {
+      var convertDataToJson=jsonDecode(response.body);
+      data=convertDataToJson;
+    });
+
+    return "Success";
   }
 }

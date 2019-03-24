@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:zigwan_demo/screens/mainpage.dart';
 import 'package:zigwan_demo/screens/minimal_signup.dart';
 
-//class MinimalLoginPageApp extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return MaterialApp(
-//      debugShowCheckedModeBanner: false,
-//      home: MinimalLoginPage(),
-//    );
-//  }
-//}
-
 class MinimalLoginPage extends StatefulWidget {
   @override
   _MinimalLoginPageState createState() => _MinimalLoginPageState();
 }
 
 class _MinimalLoginPageState extends State<MinimalLoginPage> {
+  bool _obscureText=true;
+
+  togglePassword(){
+    setState(() {
+      _obscureText=!_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -26,45 +24,22 @@ class _MinimalLoginPageState extends State<MinimalLoginPage> {
       backgroundColor: Color(0xff282d3c),
       resizeToAvoidBottomPadding: false,
       body: ListView(
-        padding: EdgeInsets.zero,
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-//              Container(
-//                child: Stack(
-//                  children: <Widget>[
-//                    Container(
-//                      padding: EdgeInsets.fromLTRB(10.0, 110.0, 0.0, 0.0),
-//                      child: Text('Hello',style: TextStyle(
-//                          fontSize: 60.0,
-//                          fontWeight: FontWeight.bold
-//                      ),),
-//                    ),
-//                    Container(
-//                      padding: EdgeInsets.fromLTRB(10.0, 160.0, 0.0, 0.0),
-//                      child: Text('There',style: TextStyle(
-//                          fontSize: 60.0,
-//                          fontWeight: FontWeight.bold
-//                      ),),
-//                    ),
-//                    Container(
-//                      padding: EdgeInsets.fromLTRB(140.0, 160.0, 0.0, 0.0),
-//                      child: Text('.',style: TextStyle(
-//                          fontSize: 60.0,
-//                          fontWeight: FontWeight.bold,
-//                          color: Colors.blue
-//                      ),),
-//                    )
-//                  ],
-//                ),
-//              ),
               Container(
-                height: 100.0,
-                //color: Colors.blueAccent,
-              ),
+                margin: EdgeInsets.all(25),
+                height: MediaQuery.of(context).size.height*0.2,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('images/app_logo.png'),
+                      fit: BoxFit.fitHeight
+                  ),
+                ),
+                ),
               Container(
-                padding:EdgeInsets.only(top:30.0,right: 20.0,left:20.0),
+                padding:EdgeInsets.only(top:10.0,right: 20.0,left:20.0),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -109,15 +84,16 @@ class _MinimalLoginPageState extends State<MinimalLoginPage> {
                           borderRadius: BorderRadius.circular(5)
                       ),
                       child: TextField(
+                        obscureText: _obscureText,
                         decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(left: 0.0, top: 15.0, bottom: 6.0, right: 0.0),
                             suffixIcon: Padding(
                               padding: EdgeInsetsDirectional.zero,
                               child: GestureDetector(
                                 onTap: (){
-
+                                  togglePassword();
                                 },
-                                child: Icon(Icons.visibility,
+                                child: Icon(_obscureText? Icons.visibility:Icons.visibility_off,
                                   size: 24.0,
                                   color: Colors.grey,
                                 ),

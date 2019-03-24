@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zigwan_demo/ui/academyCard.dart';
 import 'package:zigwan_demo/ui/notififcations.dart';
+import 'package:zigwan_demo/utils/apis.dart';
 import 'videos.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -11,44 +12,58 @@ class Academy extends StatefulWidget {
 }
 
 class _AcademyState extends State<Academy> {
-  String message = "";
-  List<Widget> items = new List();
-
-  ScrollController _controller;
-  _scrollListener(){
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        message = "reach the bottom";
-      });
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        message = "reach the top";
-      });
-    }
+  List data;
+  academyCard(int i) {
+    return Card(
+      margin: EdgeInsets.all(5.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Card(
+                  clipBehavior: Clip.antiAlias,
+//                  shape: RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.circular(10.0),
+//                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.zero,
+                    child: Image.network(
+                      data[i]['thumbnailUrl'],
+                      fit: BoxFit.cover,
+                    ),
+                  )),
+            ),
+            Container(
+              margin: EdgeInsets.all(5),
+              padding: EdgeInsets.only(left:5.0,right: 5.0),
+              child:Center(
+                child: Text(
+//                  data[i]['title'],
+                  "Name of Academy",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
-
   @override
   void initState() {
-    fetchFive();
-    _controller=ScrollController();
-    _controller.addListener(_scrollListener);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    this.getJsonData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('ZigWan'),
           actions: <Widget>[
@@ -60,56 +75,35 @@ class _AcademyState extends State<Academy> {
               padding: EdgeInsets.only(right: 0),
             ),
             IconButton(
-              icon: Icon(Icons.filter_b_and_w),
+              icon: Icon(Icons.filter_list),
               onPressed: () {
                 debugPrint('Filter');
               },
             ),
           ],
         ),
-        body:
-        NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification){
-            fetchFive();
-          },
-          child: ListView.builder(
-            shrinkWrap: true,
-            controller: _controller,
-            itemCount: items.length,
-            addRepaintBoundaries: false,
-            itemBuilder: (context, index) {
-              if(index==0)
-                return Container(
-                  child: Column(children: <Widget>[
-                    Divider(
-                      height: 2   ,
-                      color: Colors.transparent,
-                    ),
-               //     SearchBar(),
-                  ],),
-                );
-              else
-              return items[index];
-            },
-          ),
-        ),
-      ),
+        body:data==null?Container():
+        GridView.count(
+          crossAxisCount: 2,
+          children: List.generate(20, (index) {
+            return academyCard(index);
+          }),
+        )
     );
   }
-  /*fetch() async{
-    final response= await http.get("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROIz7Yeo62izwb6vxRvGg7uv6ksEk0Y10hflEY-ubcCYkjSyKU_g");
-    if(response.statusCode==200){
-        setState(() {
-          items.add(json.decode(response.body)["message"]);
-        });
+  Future<String> getJsonData() async{
+    var response=await http.get(
+        Uri.encodeFull(photo_url),
+        headers: {
+          "Accept":"application/json"
+        }
+    );
+    //    print(response.body);
+    setState(() {
+      var convertDataToJson=jsonDecode(response.body);
+      data=convertDataToJson;
+    });
 
-    }else{
-      throw Exception("hgjh");
-    }
-  }
-  */
-  fetchFive(){
-    for(int i=0;i<3;i++)
-      items.add(AcademyCard());
+    return "Success";
   }
 }

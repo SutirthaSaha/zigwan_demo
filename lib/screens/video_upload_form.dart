@@ -133,7 +133,7 @@ class _VideoUploadFormState extends State<VideoUploadForm> {
               ],
             )),
             Container(
-              height: 10.0,
+              height: 20.0,
             ),
             Container(
               padding: EdgeInsets.only(left: 5,right:5),
