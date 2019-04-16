@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:zigwan_demo/screens/add_competition_form.dart';
 import 'package:zigwan_demo/screens/add_event_form.dart';
 import 'package:zigwan_demo/screens/add_workshop_form.dart';
+import 'package:zigwan_demo/screens/event_detail_page.dart';
 import 'package:zigwan_demo/utils/apis.dart';
 import 'package:http/http.dart' as http;
 
-class Competitions extends StatefulWidget {
+class Events extends StatefulWidget {
   @override
-  _CompetitionsState createState() => _CompetitionsState();
+  _EventsState createState() => _EventsState();
 }
 
-class _CompetitionsState extends State<Competitions> {
+class _EventsState extends State<Events> {
   List data;
   suggestionCard(){
     return Container(
       color: Colors.white,
+      padding: EdgeInsets.only(bottom: 5),
       height: MediaQuery.of(context).size.height*0.3,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -40,38 +42,55 @@ class _CompetitionsState extends State<Competitions> {
   }
 
   eventCard(int i){
-    return Card(
-      margin: EdgeInsets.all(5.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize:MainAxisSize.min,
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height*0.3,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(data[i]['thumbnailUrl']),
-                      fit: BoxFit.cover
-                  )
+    return InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDetailPage()));
+      },
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize:MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height*0.3,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(data[i]['thumbnailUrl']),
+                        fit: BoxFit.cover
+                    )
+                ),
               ),
-            ),
-            Container(
-                margin: EdgeInsets.all(5),
-                padding: EdgeInsets.only(left:5.0,right: 5.0),
-                child:Row(
-                  children: <Widget>[
-                    Expanded(child:Text(data[i]['title'])),
-                    Icon(Icons.location_on),
-                    Text("Location")
-                  ],
-                )
-            )
-          ],
+              Container(
+                  margin: EdgeInsets.all(5),
+                  padding: EdgeInsets.only(left:5.0,right: 5.0),
+                  child:Row(
+                    children: <Widget>[
+                      Expanded(child:Text(data[i]['title'])),
+                      Icon(Icons.location_on),
+                      Text("Location")
+                    ],
+                  )
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _showModalBottomSheet(BuildContext context){
+    showModalBottomSheet(context: context, builder: (builder){
+      return Container(
+        height: 200,
+        color: Colors.greenAccent,
+        child: Center(
+          child: Text("Modal Sheet"),
+        ),
+      );
+    });
   }
 
   @override
@@ -84,6 +103,7 @@ class _CompetitionsState extends State<Competitions> {
   Widget build(BuildContext context) {
     return Scaffold(
       //drawer: drawerLayout(context),
+//      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('ZigWan'),
         actions: <Widget>[
@@ -106,6 +126,7 @@ class _CompetitionsState extends State<Competitions> {
             icon: Icon(Icons.filter_list),
             onPressed: () {
               debugPrint('Flter');
+              _showModalBottomSheet(context);
             },
           ),
         ],
@@ -115,18 +136,27 @@ class _CompetitionsState extends State<Competitions> {
               itemCount: data.length,
               itemBuilder: (context,index){
                 if(index==0){
-                  return Container(
-                    margin: EdgeInsets.only(top:10.0),
-                    color: Colors.white,
-                    padding:EdgeInsets.all(5),
-                    child: Text("Suggestions",style:TextStyle(fontWeight: FontWeight.bold)),
-                  );
-                }
-                else if(index==1){
-                  return suggestionCard();
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 10,child: Container(
+                          color: Colors.grey[200],
+                        ),),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          color:Colors.white,
+                          padding: EdgeInsets.all(5),
+                          child: Text("Suggestions",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15),),
+                        ),
+                        suggestionCard(),
+                        SizedBox(height: 5,child: Container(
+                          color: Colors.grey[200],
+                        ),),
+                      ],
+                    );
                 }
                 else {
-                  return eventCard(index - 2);
+                  return eventCard(index - 1);
                 }
               }
           )

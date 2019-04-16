@@ -120,6 +120,18 @@ class VideosState extends State<Videos> {
     );
   }
 
+  _showModalBottomSheet(BuildContext context){
+    showModalBottomSheet(context: context, builder: (builder){
+      return Container(
+        height: 200,
+        color: Colors.greenAccent,
+        child: Center(
+          child: Text("Modal Sheet"),
+        ),
+      );
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -151,7 +163,8 @@ class VideosState extends State<Videos> {
             IconButton(
               icon: Icon(Icons.filter_list),
               onPressed: () {
-                debugPrint('Filter');
+                //debugPrint('Filter');
+                _showModalBottomSheet(context);
               },
             ),
           ],
@@ -163,18 +176,27 @@ class VideosState extends State<Videos> {
                     itemCount: data.length,
                     itemBuilder: (context,index){
                       if(index==0){
-                        return Container(
-                          margin: EdgeInsets.only(top:10.0),
-                          color: Colors.white,
-                          padding:EdgeInsets.all(5),
-                          child: Text("Trending",style:TextStyle(fontWeight: FontWeight.bold)),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 10,child: Container(
+                              color: Colors.grey[200],
+                            ),),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              color:Colors.white,
+                              padding: EdgeInsets.all(5),
+                              child: Text("Trending",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15),),
+                            ),
+                            videosCard(),
+                            SizedBox(height: 5,child: Container(
+                              color: Colors.grey[200],
+                            ),),
+                          ],
                         );
                       }
-                      else if(index==1){
-                        return videosCard();
-                      }
                       else {
-                        return vCard(index - 2);
+                        return vCard(index - 1);
                       }
                     })
 

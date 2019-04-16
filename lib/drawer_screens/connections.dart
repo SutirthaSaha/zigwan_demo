@@ -99,7 +99,7 @@ class _ConnectionsState extends State<Connections>
         backgroundColor: Color.fromARGB(255, 210, 210, 210),
         body: TabBarView(controller: _controller, children: [
           getMyConnectionList(),
-          getMyConnectionList(),
+          getRecommendationsList(),
           getActiveRequestList(),
         ]),
       ),
@@ -118,7 +118,28 @@ class _ConnectionsState extends State<Connections>
           backgroundImage: AssetImage('images/background.png'),
         ),
         title: Text("Username",style: TextStyle(fontSize: 18),),
-        //trailing: IconButton(icon: Icon(Icons.delete_forever), onPressed: null),
+        trailing: IconButton(icon: ImageIcon(AssetImage('images/account_remove.png'),size:30), onPressed: (){
+
+        }),
+      ),
+    );
+  }
+
+  Widget RecommendationCard() {
+    return Card(
+      child: ListTile(
+        contentPadding: EdgeInsets.all(15),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()),);
+        },
+        leading: CircleAvatar(
+          radius: 25,
+          backgroundImage: AssetImage('images/background.png'),
+        ),
+        title: Text("Username",style: TextStyle(fontSize: 18),),
+        trailing: IconButton(icon: Icon(Icons.person_add,size:30), onPressed: (){
+
+        }),
       ),
     );
   }
@@ -198,7 +219,14 @@ class _ConnectionsState extends State<Connections>
       itemCount: 20,
     );
   }
-
+  getRecommendationsList() {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return RecommendationCard();
+      },
+      itemCount: 20,
+    );
+  }
   getActiveRequestList() {
     return GridView.count(
       crossAxisCount: 2,

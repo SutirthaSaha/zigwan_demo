@@ -25,6 +25,13 @@ dependencies:
   carousel_pro: ^0.0.13
   http: ^0.11.3+16
   path_provider:
+  smooth_star_rating:
+  date_range_picker:
+  date_format:
+  flutter_range_slider:
+  autocomplete_textfield:
+  expandable:
+  flutter_rating:
 
 #  video_player: ^0.6.5
 #  intro_slider: ^1.0.9
@@ -77,6 +84,7 @@ flutter:
     - images/events_icon.png
     - images/competition.png
     - images/app_logo.png
+    - images/account_remove.png
     - images/signup.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see

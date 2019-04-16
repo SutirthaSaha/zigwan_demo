@@ -6,11 +6,13 @@ import 'package:zigwan_demo/drawer_screens/RateUs.dart';
 import 'package:zigwan_demo/drawer_screens/connections.dart';
 import 'package:zigwan_demo/drawer_screens/privacy.dart';
 import 'package:zigwan_demo/drawer_screens/terms.dart';
-import 'package:zigwan_demo/screens/competitions.dart';
+import 'package:zigwan_demo/screens/ch_img_profile.dart';
+import 'package:zigwan_demo/screens/events.dart';
 import 'package:zigwan_demo/screens/login_page_minimal.dart';
 import 'package:zigwan_demo/screens/mainpage.dart';
 import 'package:zigwan_demo/screens/my_profile_page.dart';
 import 'package:zigwan_demo/screens/profile_page.dart';
+import 'package:zigwan_demo/screens/registrations.dart';
 
 drawerLayout(context) {
   return  SafeArea(
@@ -34,15 +36,20 @@ drawerLayout(context) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Container(
-                            width: 44.0,
-                            height: 44.0,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(image: ExactAssetImage('images/background.png'),
-                                    fit:BoxFit.cover),
-                                borderRadius: BorderRadius.circular(22.0)
-                            )
-                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileImageChange()));
+                          },
+                          child: Container(
+                              width: 44.0,
+                              height: 44.0,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: ExactAssetImage('images/background.png'),
+                                      fit:BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(22.0)
+                              )
+                          ),
+                        )
                       ],),
                     Container(
                       width: 20.0,
@@ -98,13 +105,14 @@ drawerLayout(context) {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Connections()),);
             },
           ),
-//          ListTile(
-//            leading: Icon(Icons.data_usage),
-//            title:Text("Statistics"),
-//            onTap: (){
-//              Navigator.pop(context);
-//            },
-//          ),
+          ListTile(
+            leading: Icon(Icons.assignment),
+            title:Text("Registrations"),
+            onTap: (){
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Registrations()),);
+            },
+          ),
           ListTile(
             leading: Icon(Icons.settings),
             title:Text("Settings"),

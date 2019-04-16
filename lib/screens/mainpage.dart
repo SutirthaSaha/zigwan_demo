@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zigwan_demo/screens/academy.dart';
 import 'package:zigwan_demo/screens/videos.dart';
-import 'package:zigwan_demo/screens/competitions.dart';
+import 'package:zigwan_demo/screens/events.dart';
 import 'package:zigwan_demo/screens/offers.dart';
 import 'package:zigwan_demo/screens/workshop.dart';
 import 'package:zigwan_demo/ui/drawer.dart';
@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<Widget> pages=[Home(),Competitions(),Offers(),Academy(),Videos()];
+  List<Widget> pages=[Home(),Events(),Offers(),Academy(),Videos()];
   var _currIndex=0;
   Widget callPage(int index){
     return pages[index];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zigwan_demo/screens/forgot_password_page.dart';
 import 'package:zigwan_demo/screens/mainpage.dart';
 import 'package:zigwan_demo/screens/minimal_signup.dart';
 
@@ -137,6 +138,7 @@ class _MinimalLoginPageState extends State<MinimalLoginPage> {
                           ),),
                         onTap: (){
                           print('Forgot Password Clicked');
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPassword()));
                         },
                       ),
                     ),

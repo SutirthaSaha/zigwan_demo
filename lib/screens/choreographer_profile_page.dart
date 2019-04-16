@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zigwan_demo/screens/ch_image_cover.dart';
 
-class MyProfilePage extends StatefulWidget {
+class ChoreographerProfilePage extends StatefulWidget {
   @override
-  _MyProfilePageState createState() => _MyProfilePageState();
+  _ChoreographerProfilePageState createState() => _ChoreographerProfilePageState();
 }
 
-class _MyProfilePageState extends State<MyProfilePage> {
+class _ChoreographerProfilePageState extends State<ChoreographerProfilePage> {
+  var pic = "https://www.thewrap.com/wp-content/uploads/2017/07/Robert-Downey-Jr-Iron-Man-Pepper-Potts-Tony-Stark.jpg";
+
   @override
   Widget build(BuildContext context) {
     var screenSize=MediaQuery.of(context).size;
@@ -70,21 +71,55 @@ class _MyProfilePageState extends State<MyProfilePage> {
           Stack(
             alignment: Alignment.bottomLeft,
             children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CoverImageChange()));
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset("images/background.png",fit: BoxFit.fill,),
-                ),
+
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Image.asset("images/background.png",fit: BoxFit.fill,),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        height:MediaQuery.of(context).size.height * 0.1,
+                      ),
+                      //Text("Choreographer Name",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+                      Container(
+//                        margin: EdgeInsets.all(5),
+//                        padding: EdgeInsets.only(left:5.0,right: 5.0),
+                        width:MediaQuery.of(context).size.width*0.4,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child:Text(
+                            "Choreographer name",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                fontSize:20
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomLeft,
+              Positioned(
+//                alignment: Alignment.bottomLeft,
+                bottom: 0,
+                left:5,
                 child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text("UserName",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 30.0),),
+                  padding: EdgeInsets.only(left:10),
+                  child: Container(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(pic),
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -120,39 +155,16 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Text("Events",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)
-                  ),
-                  InkWell(
-                    onTap: (){
-
-                    },
-                    child:Icon(Icons.edit,color:Colors.black),
-                  )
-                ],
-              ),
-          ),
-          postsCard(),
-          Padding(
             padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
             child: Row(
               children: <Widget>[
                 Expanded(
                     child: Text("Videos",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)
                 ),
-                InkWell(
-                  onTap: (){
-
-                  },
-                  child: Icon(Icons.edit,color:Colors.black),
-                )
               ],
             ),
           ),
-          noPostsCard(),
+          postsCard(),
           Card(
             child: Container(
               child: Column(
@@ -164,18 +176,12 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         Expanded(
                             child: Text("About",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)
                         ),
-                        InkWell(
-                          onTap: (){
-
-                          },
-                          child: Icon(Icons.edit,color:Colors.black),
-                        )
                       ],
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
+                    padding: EdgeInsets.all(10),
+                    child: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
                   )
                 ],
               ),
@@ -188,12 +194,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 Expanded(
                     child: Text("Interests",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)
                 ),
-                InkWell(
-                  onTap: (){
-
-                  },
-                  child: Icon(Icons.edit,color:Colors.black),
-                )
               ],
             ),
           ),

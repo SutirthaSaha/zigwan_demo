@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
               );*/
             },
             child: Container(
-              height: 150,
+              height: MediaQuery.of(context).size.height*0.3,
               //margin: EdgeInsets.only(left: 7, right: 7),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
