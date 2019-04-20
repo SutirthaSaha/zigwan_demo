@@ -15,6 +15,117 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
   String _daySelected = 'Sunday';
   var pic = "https://www.thewrap.com/wp-content/uploads/2017/07/Robert-Downey-Jr-Iron-Man-Pepper-Potts-Tony-Stark.jpg";
   var _days=['Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday'];
+  List timings=[];
+  List locations=[];
+  List choreographers=[];
+  List danceForms=[];
+  var admissionFee=0;
+  var monthlyFee=0;
+  var timingWidgets=List<Widget>();
+  var locationWidgets=List<Widget>();
+  var choreographerWidgets=List<Widget>();
+  var danceFormsWidgets=List<Widget>();
+
+  timingsContainer(i){
+    return Container(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: Text(timings[i][0]),
+            ),
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Text(timings[i][1]),
+            ),
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Icon(Icons.compare_arrows),
+            ),
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Text(timings[i][2]),
+            )
+          ],
+        )
+    );
+  }
+
+  locationsContainer(i){
+    return Container(
+        margin: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(locations[i][0]),
+            SizedBox(height:2),
+            Text(locations[i][1]),
+            SizedBox(height:5),
+            Divider(height: 0.5,)
+          ],
+        )
+    );
+  }
+
+  choreographerContainer(i){
+    return Container(
+        margin:EdgeInsets.all(3),
+        child:Row(
+          children: <Widget>[
+            Expanded(child: Text(choreographers[i]))
+          ],
+        )
+    );
+  }
+
+  danceFormsContainer(i){
+    return Container(
+        margin:EdgeInsets.all(3),
+        child:Row(
+          children: <Widget>[
+            Expanded(child: Text(danceForms[i]))
+          ],
+        )
+    );
+  }
+
+  initState(){
+    super.initState();
+    for(int i=0;i<3;i++){
+      List time=[];
+      time.add(_days[7-i-1]);
+      time.add("3pm");
+      time.add("6pm");
+      timings.add(time);
+    }
+    for(int i=0;i<3;i++){
+      timingWidgets.add(timingsContainer(i));
+    }
+    for(int i=0;i<2;i++){
+      List location=[];
+      location.add("Locality");
+      location.add("123, Locality, City, Pin code");
+      locations.add(location);
+    }
+    for(int i=0;i<2;i++){
+      locationWidgets.add(locationsContainer(i));
+    }
+    for(int i=1;i<=3;i++){
+      choreographers.add("Choreographer $i");
+    }
+    for(int i=0;i<3;i++){
+      choreographerWidgets.add(choreographerContainer(i));
+    }
+    for(int i=1;i<=4;i++){
+      danceForms.add("Dance Form $i");
+    }
+    for(int i=0;i<3;i++){
+      danceFormsWidgets.add(danceFormsContainer(i));
+    }
+    admissionFee=1000;
+    monthlyFee=500;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +134,273 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
     images[2]=AssetImage("images/background2.png");
     images[3]=AssetImage("images/background3.png");
 
+    addTiming(){
+      return Container(
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.all(5),
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: Text("Day",style: TextStyle(fontWeight:FontWeight.bold),),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left:10,right:10),
+                  child: DropdownButton<String>(
+                    items: _days.map((String dropDownStringItem){
+                      return DropdownMenuItem(
+                          value: dropDownStringItem,
+                          child: Center(
+                            child: Text(dropDownStringItem,style: TextStyle(
+                                color:Colors.blue,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat'
+                            )),
+                          ));
+                    }).toList(),
+                    onChanged: (value){
+                      setState(() {
+                        _daySelected=value;
+                      });
+                    },
+                    value: _daySelected,
+                    hint: Text("Select Day"),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    width: MediaQuery.of(context).size.width*0.2,
+                    child:TextField(
+                      decoration: InputDecoration(
+                        hintText: "Starting Time"
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        border:Border.all(color: Colors.blue,width: 0.5)
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Icon(Icons.compare_arrows),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    width: MediaQuery.of(context).size.width*0.2,
+                    child:TextField(
+                      decoration: InputDecoration(
+                          hintText: "Ending Time"
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        border:Border.all(color: Colors.blue,width: 0.5)
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: new FlatButton(
+                      child: Text("Add", style: TextStyle(fontSize: 20),),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      textColor: Colors.black,
+                    )
+                ),
+              ],
+            ),
+          ],
+        )
+      );
+    }
+
+    addLocation(){
+      return Container(
+        padding:EdgeInsets.all(5),
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Enter your locality'
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Enter your address'
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: new FlatButton(
+                      child: Text("Confirm", style: TextStyle(fontSize: 20),),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      textColor: Colors.black,
+                    )
+                ),
+              ],
+            ),
+          ],
+        )
+      );
+    }
+
+    editFee(){
+      return Container(
+        padding:EdgeInsets.all(5),
+        child:Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: Text("Admission Fee")
+                ),
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: ''
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: Text("Monthly Fee")
+                ),
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: ''
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: new FlatButton(
+                      child: Text("Confirm", style: TextStyle(fontSize: 20),),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      textColor: Colors.black,
+                    )
+                ),
+              ],
+            ),
+          ],
+        )
+      );
+    }
+
+    addChoreographer(){
+      return Container(
+        padding: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Enter the name'
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                    child: new FlatButton(
+                      child: Text("Add", style: TextStyle(fontSize: 20),),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      textColor: Colors.black,
+                    )
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    addDanceForm(){
+      return Container(
+        padding:EdgeInsets.all(5),
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Dance Form'
+                      ),
+                    )
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                    child: new FlatButton(
+                      child: Text("Add", style: TextStyle(fontSize: 20),),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                      textColor: Colors.black,
+                    )
+                ),
+              ],
+            ),
+          ],
+        )
+      );
+    }
     return Scaffold(
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -125,63 +503,22 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                           )
                       ),
                       expanded: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child:Container(
-                                    padding: EdgeInsets.only(left:10,right:10),
-                                    child: DropdownButton<String>(
-                                      items: _days.map((String dropDownStringItem){
-                                        return DropdownMenuItem(
-                                            value: dropDownStringItem,
-                                            child: Center(
-                                              child: Text(dropDownStringItem,style: TextStyle(
-                                                  color:Colors.blue,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Montserrat'
-                                              )),
-                                            ));
-                                      }).toList(),
-                                      onChanged: (value){
-                                        setState(() {
-                                          _daySelected=value;
-                                        });
-                                      },
-                                      value: _daySelected,
-                                      hint: Text("SELECT DAY"),
-                                    ),
-                                  )
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                width: MediaQuery.of(context).size.width*0.2,
-                                child:Text("10:00 A.M."),
-                                decoration: BoxDecoration(
-                                    border:Border.all(color: Colors.blue,width: 0.5)
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                child: Icon(Icons.compare_arrows),
-                              ),
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                width: MediaQuery.of(context).size.width*0.2,
-                                child:Text("10:00 P.M."),
-                                decoration: BoxDecoration(
-                                    border:Border.all(color: Colors.blue,width: 0.5)
-                                ),
-                              ),
-                            ],
+                          Column(
+                            children: timingWidgets,
                           ),
                           Row(
                             children: <Widget>[
                               Expanded(
                                   child: new FlatButton(
                                     child: Text("Add New", style: TextStyle(fontSize: 20),),
-                                    onPressed: (){},
+                                    onPressed: (){
+                                      showDialog(context: context,builder: (context){
+                                        return Dialog(
+                                          child: addTiming(),
+                                        );
+                                      });
+                                    },
                                     textColor: Colors.black,
                                   )
                               ),
@@ -217,26 +554,23 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                           )
                       ),
                       expanded: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Enter your locality'
-                                    ),
-                                  )
-                              ),
-                            ],
+                          Column(
+                            children: locationWidgets,
                           ),
                           Row(
                             children: <Widget>[
                               Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Enter your address'
-                                    ),
+                                  child: new FlatButton(
+                                    child: Text("Add New", style: TextStyle(fontSize: 20),),
+                                    onPressed: (){
+                                      showDialog(context: context,builder: (context){
+                                        return Dialog(
+                                          child: addLocation(),
+                                        );
+                                      });
+                                    },
+                                    textColor: Colors.black,
                                   )
                               ),
                             ],
@@ -279,11 +613,7 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                                   child: Text("Admission Fee")
                               ),
                               Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: ''
-                                    ),
-                                  )
+                                  child: Text("₹ $admissionFee")
                               ),
                             ],
                           ),
@@ -293,10 +623,23 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                                   child: Text("Monthly Fee")
                               ),
                               Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: ''
-                                    ),
+                                  child: Text("₹ $monthlyFee")
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                  child: new FlatButton(
+                                    child: Text("Add New", style: TextStyle(fontSize: 20),),
+                                    onPressed: (){
+                                      showDialog(context: context,builder: (context){
+                                        return Dialog(
+                                          child: editFee(),
+                                        );
+                                      });
+                                    },
+                                    textColor: Colors.black,
                                   )
                               ),
                             ],
@@ -331,25 +674,22 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                           )
                       ),
                       expanded: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Enter the name'
-                                    ),
-                                  )
-                              ),
-                            ],
+                          Column(
+                            children:choreographerWidgets,
                           ),
                           Row(
                             children: <Widget>[
                               Expanded(
                                   child: new FlatButton(
                                     child: Text("Add New", style: TextStyle(fontSize: 20),),
-                                    onPressed: (){},
+                                    onPressed: (){
+                                      showDialog(context: context,builder: (context){
+                                        return Dialog(
+                                          child: addChoreographer(),
+                                        );
+                                      });
+                                    },
                                     textColor: Colors.black,
                                   )
                               ),
@@ -385,31 +725,28 @@ class _AcademyMyProfilePageState extends State<AcademyMyProfilePage> {
                           )
                       ),
                       expanded: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Field1'
-                                    ),
-                                  )
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: new FlatButton(
-                                    child: Text("Add New", style: TextStyle(fontSize: 20),),
-                                    onPressed: (){},
-                                    textColor: Colors.black,
-                                  )
-                              ),
-                            ],
-                          ),
-                        ],
+                          children: <Widget>[
+                            Column(
+                              children: danceFormsWidgets,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: new FlatButton(
+                                      child: Text("Add New", style: TextStyle(fontSize: 20),),
+                                      onPressed: (){
+                                        showDialog(context: context,builder: (context){
+                                          return Dialog(
+                                            child: addDanceForm(),
+                                          );
+                                        });
+                                      },
+                                      textColor: Colors.black,
+                                    )
+                                ),
+                              ],
+                            ),
+                          ],
                       ),
                       builder: (_, collapsed, expanded) {
                         return Padding(

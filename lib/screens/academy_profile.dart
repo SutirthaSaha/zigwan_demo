@@ -208,7 +208,7 @@ class _AcademyProfilePageState extends State<AcademyProfilePage> {
                     padding: EdgeInsets.only(left:10),
                     child: Container(
                       child: CircleAvatar(
-                        radius: 60,
+                        radius: 50,
                         backgroundImage: NetworkImage(pic),
                       ),
                     ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:zigwan_demo/drawer_screens/About.dart';
-import 'package:zigwan_demo/drawer_screens/Contact.dart';
-import 'package:zigwan_demo/drawer_screens/Feedback.dart';
-import 'package:zigwan_demo/drawer_screens/RateUs.dart';
 import 'package:zigwan_demo/drawer_screens/connections.dart';
 import 'package:zigwan_demo/drawer_screens/privacy.dart';
+import 'package:zigwan_demo/drawer_screens/settings.dart';
 import 'package:zigwan_demo/drawer_screens/terms.dart';
 import 'package:zigwan_demo/screens/ch_img_profile.dart';
+import 'package:zigwan_demo/drawer_screens/customer_support_page.dart';
 import 'package:zigwan_demo/screens/events.dart';
+import 'package:zigwan_demo/drawer_screens/feedback_page.dart';
 import 'package:zigwan_demo/screens/login_page_minimal.dart';
 import 'package:zigwan_demo/screens/mainpage.dart';
 import 'package:zigwan_demo/screens/my_profile_page.dart';
@@ -118,6 +118,7 @@ drawerLayout(context) {
             title:Text("Settings"),
             onTap: (){
               Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()),);
             },
           ),
           ListTile(
@@ -148,7 +149,7 @@ drawerLayout(context) {
             title: Text("Send Feedback"),
             onTap: (){
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedBack()),);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackPage()),);
             },
           ),
           ListTile(
@@ -156,15 +157,15 @@ drawerLayout(context) {
             title: Text("Rate Us!"),
             onTap: (){
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RateUs()),);
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => RateUs()),);
             },
           ),
           ListTile(
             leading: ImageIcon(AssetImage("images/z_circle.png")),
-            title: Text("About Us"),
+            title: Text("Customer Support"),
             onTap: (){
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => About()),);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerSupportPage()),);
             },
           ),
           ListTile(
@@ -172,7 +173,7 @@ drawerLayout(context) {
             title: Text("FAQs"),
             onTap: (){
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Terms()),);
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => Terms()),);
             },
           ),
           ListTile(

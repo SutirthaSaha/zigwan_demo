@@ -48,55 +48,48 @@ class _VideoPlayState extends State<VideoPlay> {
             ),
           ),
           Container(
+            padding: EdgeInsets.only(top:10,bottom:10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.thumb_up,color: Color.fromARGB(255, 120, 120, 120),),
-                        Text(videoData['video_total_views'].toString(),style: TextStyle(
-                            color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
-                        ),),
-                      ],
-                    )
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.thumb_up,color: Color.fromARGB(255, 120, 120, 120),),
+                    Text(videoData['video_total_views'].toString(),style: TextStyle(
+                        color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
+                    ),),
+                  ],
                 ),
-                Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.chat_bubble,color: Color.fromARGB(255, 120, 120, 120),),
-                        Text(videoData['video_total_views'].toString(),style: TextStyle(
-                            color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
-                        ),),
-                      ],
-                    )
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.chat_bubble,color: Color.fromARGB(255, 120, 120, 120),),
+                    Text(videoData['video_total_views'].toString(),style: TextStyle(
+                        color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
+                    ),),
+                  ],
                 ),
-                Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.share,color: Color.fromARGB(255, 120, 120, 120),),
-                        Text(videoData['video_total_views'].toString(),style: TextStyle(
-                            color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
-                        ),),
-                      ],
-                    )
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.share,color: Color.fromARGB(255, 120, 120, 120),),
+                    Text(videoData['video_total_views'].toString(),style: TextStyle(
+                        color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
+                    ),),
+                  ],
                 ),
-                Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.remove_red_eye,color:Color.fromARGB(255, 120, 120, 120),),
-                        Text(videoData['video_total_views'].toString(),style: TextStyle(
-                            color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
-                        ),),
-                      ],
-                    )
-                ),
+                Row(
+                  children: <Widget>[
+                    Icon(Icons.remove_red_eye,color:Color.fromARGB(255, 120, 120, 120),),
+                    Text(videoData['video_total_views'].toString(),style: TextStyle(
+                        color: Color.fromARGB(255, 120, 120, 120),fontWeight: FontWeight.bold
+                    ),),
+                  ],
+                )
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 10,left: 5,bottom: 10),
+            padding: EdgeInsets.all(5),
             alignment: Alignment.centerLeft,
             child: Text(
               videoData['video_caption'],
@@ -108,33 +101,31 @@ class _VideoPlayState extends State<VideoPlay> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 5,bottom: 10),
-            child: Text('Description: '+videoData['video_description']),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(left: 5),
-                  alignment: Alignment.centerLeft,
-                  child: Text('Posted by: '+videoData['video_uploaded_by'], style: TextStyle(
-                      fontWeight: FontWeight.bold
-                  ),),
-                ),
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                height: 25,
-                padding: EdgeInsets.only(right: 20),
-                child: RaisedButton(
-                  child: Text('Subscribe'),
-                  onPressed: (){},
-                ),
-              )
-            ],
+            padding: EdgeInsets.all(5),
+            child: Text('Description: \n'+videoData['video_description']),
           ),
           Container(
-            padding: EdgeInsets.only(left: 5,bottom: 10,top: 5),
+            padding: EdgeInsets.only(left:5,right:5),
+            child:Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Posted by: '+videoData['video_uploaded_by'], style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ),
+                RaisedButton(
+                  color: Colors.red,
+                  child: Text('SUBSCRIBE',style: TextStyle(color: Colors.white),),
+                  onPressed: (){},
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(5),
 
             alignment: Alignment.centerLeft,
             child: Text('Suggestions: ',style: TextStyle(
